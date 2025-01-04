@@ -9,14 +9,22 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 # Set the working directory
 WORKDIR /application
 
-# Install dependencies first to leverage Docker caching
-COPY requirments.txt /application
-RUN pip install --no-cache-dir -r requirments.txt
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y \
+    gcc \
+    python3-dev && \
+    rm -rf /var/lib/apt/lists/*
 
-# Copy the rest of the application code
+# Install dependencies first to leverage Docker caching
+COPY requirments.txt .
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirments.txt
+
+# Copy application code
 COPY . .
 
-# Run migrations in a single step to reduce image layers
+# Run database migrations in a single step
 RUN python manage.py makemigrations && python manage.py migrate
 
 # Expose the application port
