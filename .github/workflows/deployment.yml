@@ -23,5 +23,5 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/Smart-Health-Monitoring-App:${{ github.sha }} .
-          docker push ${{ secrets.DOCKER_USERNAME }}/Smart-Health-Monitoring-App:${{ github.sha }}
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/smart-health-monitoring-app:${{ github.sha }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/smart-health-monitoring-app:${{ github.sha }}
