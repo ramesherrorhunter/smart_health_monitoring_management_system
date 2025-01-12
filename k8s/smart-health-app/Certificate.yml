@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: domain-local-cert-tls  #domain-local-cert
+  namespace: production
+spec:
+  secretName: domain-local-cert-tls
+  duration: 24h
+  renewBefore: 12h
+  commonName: smarthealth.local
+  dnsNames:
+    - smarthealth.local
+  issuerRef:
+    name: self-signed-issuer
+    kind: Issuer

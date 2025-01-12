@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: domain-local-ingress
+  namespace: production
+  annotations:
+    cert-manager.io/issuer: "self-signed-issuer"
+spec:
+  tls:
+  - hosts:
+    - smarthealth.local
+    secretName: domain-local-cert-tls
+  rules:
+  - host: smarthealth.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: smart-health-service
+            port:
+              number: 80
