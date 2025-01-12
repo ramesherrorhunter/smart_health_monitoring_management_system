@@ -45,6 +45,27 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/smart-health-monitoring-app:${{ github.sha }} .
           docker push ${{ secrets.DOCKER_USERNAME }}/smart-health-monitoring-app:${{ github.sha }}
 
+      - name: Run Dockle security scan
+        id: dockle
+        uses: goodwithtech/dockle-action@main
+        with:
+          image: '${{ secrets.DOCKER_USERNAME }}/smart-health-monitoring-app:${{ github.sha }}'  # Replace with your image name
+          format: 'json'  # Store the output in JSON format for better readability and parsing
+          output: 'dockle.json'
+          exit-code: '1'  # Exit code to return if vulnerabilities are found (non-zero will fail the job)
+          exit-level: 'warn'  # Fail the job if vulnerabilities of 'warn' level or higher are found
+          # ignore: 'CIS-DI-0001,DKL-DI-0006'  # Ignore specific rule IDs
+        continue-on-error: true  # Allows the job to continue even if Dockle finds vulnerabilities
+
+      - name: Upload Dockle Scan Results as Artifact
+        uses: actions/upload-artifact@v4
+        if: always()  # Always run this step regardless of the job's outcome
+        with:
+          name: dockle-scan-results  # Artifact name
+          path: dockle.json  # Path to the Dockle scan results file
+          # if-no-files-found: warn  # Warn if no files are found
+          # include-hidden-files: false
+
       - name: Install yq
         run: |
           sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/local/bin/yq
