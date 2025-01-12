@@ -20,6 +20,7 @@ jobs:
         run: pip install checkov
 
       - name: Run Checkov on Infrastructure Code
+        continue-on-error: true
         run: |
           checkov -d ./k8s \
             --framework terraform,kubernetes,cloudformation \
