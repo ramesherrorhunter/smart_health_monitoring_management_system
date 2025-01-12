@@ -15,6 +15,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install Checkov
+        run: pip install checkov
+
+      - name: Run Checkov scan for Terraform
+        run: checkov -d . --framework terraform --output json > checkov-terraform-report.json
+
+      - name: Run Checkov scan for Kubernetes Framework
+        run: checkov -d . --framework kubernetes --output json > checkov-kubernetes-report.json
+
+      - name: Upload Checkov results as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkov-scan-results
+          path: |
+            checkov-terraform-report.json
+            checkov-kubernetes-report.json
+
       - name: Set up Docker
         uses: docker/login-action@v3
         with:
@@ -44,3 +61,4 @@ jobs:
           git push origin main
         env:
             GITHUB_TOKEN: ${{ secrets.TOKEN }}
+
