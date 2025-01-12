@@ -4,7 +4,7 @@ metadata:
   name: smart-health-app
   namespace: production
 spec:
-  replicas: 2 # updated 2 for HA
+  # replicas: 2 # updated 2 for HA
   selector:
     matchLabels:
       app: smart-health-app
