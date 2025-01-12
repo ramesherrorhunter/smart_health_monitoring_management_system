@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-#uk9tf!i%pwtuw38z0@vq+em88m^!i(hy!-mp)z)j+*r)dv-f4
 DEBUG = True
 CSRF_TRUSTED_ORIGINS = ["https://6f9a-103-91-120-78.ngrok.io"]
 
-ALLOWED_HOSTS = ['smarthealth.local'] #'localhost', 'smarthealth.local', '192.168.49.2', '*'
+ALLOWED_HOSTS = ['smarthealth.local','http://smarthealth.local/', 'https://smarthealth.local/'] #'localhost', 'smarthealth.local', '192.168.49.2', '*'
 
 
 # Application definition
