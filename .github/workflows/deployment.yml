@@ -34,12 +34,13 @@ jobs:
       - name: Update GitOps
         run: |
           yq eval ".spec.template.spec.containers[0].image = \"${{ secrets.DOCKER_USERNAME }}/smart-health-monitoring-app:${{ github.sha }}\"" -i k8s/smart-health-app/Deployment.yml
-          - name: Commit and Push GitOps
-          run: |
-            git config --global user.name "GitHub Actions"
-            git config --global user.email "actions@github.com"
-            git add k8s/smart-health-app/Deployment.yml
-            git commit -m "Update image to ${{ secrets.DOCKER_USERNAME }}/node-application:${{ github.sha }}"
-            git push origin main
-          env:
+
+      - name: Commit and Push GitOps
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add k8s/smart-health-app/Deployment.yml
+          git commit -m "Update image to ${{ secrets.DOCKER_USERNAME }}/smart-health-monitoring-app:${{ github.sha }}"
+          git push origin main
+        env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
