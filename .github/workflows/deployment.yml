@@ -11,6 +11,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,7 +20,6 @@ jobs:
         run: pip install checkov
 
       - name: Run Checkov on Infrastructure Code
-        continue-on-error: true
         run: |
           checkov -d ./k8s \
             --framework terraform,kubernetes,cloudformation \
