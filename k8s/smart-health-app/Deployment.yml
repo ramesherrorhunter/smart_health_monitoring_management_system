@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: smart-health-container
-          image: errorhunter/smart-health-monitoring-app:1138f027b91a5ebcc86479a1b5ffaf0eb8093049
+          image: errorhunter/smart-health-monitoring-app:c1307f6a8325bc06e1114f19f47e16d8c4297b29
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9001
