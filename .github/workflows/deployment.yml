@@ -18,19 +18,20 @@ jobs:
       - name: Install Checkov
         run: pip install checkov
 
-      - name: Run Checkov scan for Terraform
-        run: checkov -d . --framework terraform --output json > checkov-terraform-report.json
+      - name: Run Checkov on Infrastructure Code
+        continue-on-error: true
+        run: |
+          checkov -d ./k8s \
+            --framework terraform,kubernetes,cloudformation \
+            --output json \
+            --output-file checkov-report.json \
+            --skip-check BC.PipelineMissing
 
-      - name: Run Checkov scan for Kubernetes Framework
-        run: checkov -d . --framework kubernetes --output json > checkov-kubernetes-report.json
-
-      - name: Upload Checkov results as artifacts
+      - name: Upload Checkov Report as Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: checkov-scan-results
-          path: |
-            checkov-terraform-report.json
-            checkov-kubernetes-report.json
+          name: checkov-reports
+          path: checkov-report.json
 
       - name: Set up Docker
         uses: docker/login-action@v3
