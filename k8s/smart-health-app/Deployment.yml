@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smart-health-app
+  namespace: production
+spec:
+  replicas: 2 # updated 2 for HA
+  selector:
+    matchLabels:
+      app: smart-health-app
+  template:
+    metadata:
+      labels:
+        app: smart-health-app
+      annotations:
+        description: "Deployment for the smart-health application"
+    spec:
+      containers:
+        - name: smart-health-container
+          image: errorhunter/node-application:c94142065c689fe87369015410ddbb2c9fb17043
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9001
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 9001
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 9001
+            initialDelaySeconds: 5
+            periodSeconds: 1
+          envFrom:
+            - configMapRef:
+                name: smart-health-configmap
+            - secretRef:
+                name: smart-health-secret
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  revisionHistoryLimit: 3
