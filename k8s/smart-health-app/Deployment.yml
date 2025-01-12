@@ -35,18 +35,6 @@ spec:
             allowPrivilegeEscalation: false
             capabilities:
               drop: ["ALL"]
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 9001
-            initialDelaySeconds: 5
-            periodSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 9001
-            initialDelaySeconds: 5
-            periodSeconds: 1
           envFrom:
             - configMapRef:
                 name: smart-health-configmap
