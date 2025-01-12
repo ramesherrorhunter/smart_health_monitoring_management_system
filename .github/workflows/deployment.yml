@@ -43,4 +43,4 @@ jobs:
           git commit -m "Update image to ${{ secrets.DOCKER_USERNAME }}/smart-health-monitoring-app:${{ github.sha }}"
           git push origin main
         env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.TOKEN }}
