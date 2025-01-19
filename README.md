@@ -13,11 +13,11 @@
 ## Prerequisites
 
 - Docker
-- Kubernetes
+- Kubernetes - minikube/kind
 - kubectl
 - Helm
 - GitHub Actions (for CI/CD)
-- git
+- cert-manager and argocd installed on Kubernetes cluster
 
 ## Getting Started
 
@@ -30,12 +30,12 @@ cd smart_health_monitoring_management_system
 
 ### Step 2: Run CI/CD Pipeline
 
-- store DOCKER_USERNAME and DOCKER_PASSWORD into github secrets
-- Do cosmatic changes and Push changes to the main branch to trigger the GitHub Actions pipeline.
+- Store your DOCKER_USERNAME and DOCKER_PASSWORD as GitHub secrets.
+- Make cosmetic changes and push them to the main branch to trigger the GitHub Actions pipeline.
 - The pipeline will:
-    Run security checks using Checkov and Dockle.
-    Build and push Docker images.
-    Update the Kubernetes deployment via GitOps.
+    [1]Run security checks using Checkov and Dockle.
+    [2]Build and push Docker images.
+    [3]Update the Kubernetes deployment via GitOps.
 
 ## Contributing
 Feel free to fork the repo and submit pull requests. Any contributions to improve the project are welcome!
